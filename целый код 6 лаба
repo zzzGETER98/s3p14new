@@ -1,0 +1,105 @@
+#include <iostream>
+#include <vector>
+#include <memory>
+#include <string>
+
+// Базовый класс: Компьютер
+class Computer {
+protected:
+    std::string name;
+    double price;
+
+public:
+    // Конструктор базового класса
+    Computer(const std::string& name, double price) : name(name), price(price) {}
+
+    // Виртуальный деструктор
+    virtual ~Computer() {}
+
+    // Виртуальный метод для отображения информации
+    virtual void display() const {
+        std::cout << "Компьютер: " << name << ", Цена: " << price << std::endl;
+    }
+
+    // Виртуальный метод для получения цены
+    virtual double getPrice() const {
+        return price;
+    }
+};
+
+// Класс-наследник: Настольный компьютер
+class DesktopComputer : public Computer {
+private:
+    std::string caseType; // Тип корпуса
+
+public:
+    // Конструктор
+    DesktopComputer(const std::string& name, double price, const std::string& caseType)
+        : Computer(name, price), caseType(caseType) {}
+
+    // Переопределение метода отображения информации
+    void display() const override {
+        std::cout << "Настольный компьютер: " << name 
+                  << ", Цена: " << price 
+                  << ", Тип корпуса: " << caseType << std::endl;
+    }
+
+    // Дополнительный метод для получения типа корпуса
+    std::string getCaseType() const {
+        return caseType;
+    }
+};
+
+// Класс-наследник: Ноутбук
+class Laptop : public Computer {
+private:
+    double weight; // Вес ноутбука
+
+public:
+    // Конструктор
+    Laptop(const std::string& name, double price, double weight)
+        : Computer(name, price), weight(weight) {}
+
+    // Переопределение метода отображения информации
+    void display() const override {
+        std::cout << "Ноутбук: " << name 
+                  << ", Цена: " << price 
+                  << ", Вес: " << weight << " кг" << std::endl;
+    }
+
+    // Дополнительный метод для получения веса
+    double getWeight() const {
+        return weight;
+    }
+};
+
+// Функция для вычисления средней цены
+double calculateAveragePrice(const std::vector<std::shared_ptr<Computer>>& computers) {
+    double total = 0;
+    for (const auto& comp : computers) {
+        total += comp->getPrice();
+    }
+    return computers.empty() ? 0 : total / computers.size();
+}
+
+int main() {
+    std::vector<std::shared_ptr<Computer>> computers;
+
+    // Создание объектов классов-наследников
+    computers.push_back(std::make_shared<DesktopComputer>("Office PC", 1000.0, "Mini Tower"));
+    computers.push_back(std::make_shared<Laptop>("Gaming Laptop", 2000.0, 2.2));
+    computers.push_back(std::make_shared<DesktopComputer>("Home PC", 800.0, "Mid Tower"));
+    computers.push_back(std::make_shared<Laptop>("Ultrabook", 1500.0, 1.1));
+
+    // Вывод информации о компьютерах
+    std::cout << "Список компьютеров:\n";
+    for (const auto& comp : computers) {
+        comp->display();
+    }
+
+    // Расчет средней цены
+    double avgPrice = calculateAveragePrice(computers);
+    std::cout << "\nСредняя цена компьютеров: $" << avgPrice << "\n";
+
+    return 0;
+}

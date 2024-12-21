@@ -1,0 +1,54 @@
+#ifndef DERIVEDCOMPUTERS_H
+#define DERIVEDCOMPUTERS_H
+
+#include "Computer.h"
+#include <string>
+#include <iostream>
+
+// Класс: Настольный компьютер
+class DesktopComputer : public Computer {
+private:
+    std::string caseType; // Тип корпуса
+
+public:
+    // Конструктор
+    DesktopComputer(const std::string& name, double price, const std::string& caseType)
+        : Computer(name, price), caseType(caseType) {}
+
+    // Переопределение метода отображения информации
+    void display() const override {
+        std::cout << "Настольный компьютер: " << name 
+                  << ", Цена: " << price 
+                  << ", Тип корпуса: " << caseType << std::endl;
+    }
+
+    // Дополнительный метод для получения типа корпуса
+    std::string getCaseType() const {
+        return caseType;
+    }
+};
+
+// Класс: Ноутбук
+class Laptop : public Computer {
+private:
+    double weight; // Вес ноутбука
+
+public:
+    // Конструктор
+    Laptop(const std::string& name, double price, double weight)
+        : Computer(name, price), weight(weight) {}
+
+    // Переопределение метода отображения информации
+    void display() const override {
+        std::cout << "Ноутбук: " << name 
+                  << ", Цена: " << price 
+                  << ", Вес: " << weight << " кг" << std::endl;
+    }
+
+    // Дополнительный метод для получения веса
+    double getWeight() const {
+        return weight;
+    }
+};
+
+#endif // DERIVEDCOMPUTERS_H

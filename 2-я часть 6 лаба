@@ -1,0 +1,31 @@
+#ifndef COMPUTER_H
+#define COMPUTER_H
+
+#include <string>
+#include <iostream>
+
+class Computer {
+protected:
+    std::string name;
+    double price;
+
+public:
+    // Конструктор базового класса
+    Computer(const std::string& name, double price) : name(name), price(price) {}
+
+    // Виртуальный деструктор
+    virtual ~Computer() {}
+
+    // Виртуальный метод для отображения информации
+    virtual void display() const {
+        std::cout << "Name: " << name << ", Price: " << price << "\n";
+    }
+
+    // Виртуальный метод для получения цены
+    virtual double getPrice() const {
+        return price;
+    }
+};
+
+#endif // COMPUTER_H
+
